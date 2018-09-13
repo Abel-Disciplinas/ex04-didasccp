@@ -5,7 +5,7 @@ include("bisseccao.jl")
 
 function tests()
     funcoes = [ (funcao1, 0, 1),
-                (x -> funcao2, 0, pi^(1/10)),
+                (funcao2, 0, (101pi)^(1/10)),
                 (x -> x * exp(x) - 1, 0, 1) ]
     for i = 1:length(funcoes)
         (f, a, b) = funcoes[i]
