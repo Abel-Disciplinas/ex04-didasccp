@@ -1,27 +1,40 @@
-function bisseccao(f, a, b, estrategia; atol=1e-6, rtol=1e-6, max_iter=10_000)
-    fa, fb = f(a), f(b)
-    if abs(fa) < atol
-        return a, fa, 0
-    elseif abs(fb) < atol
-        return b, fb, 0
+function bisseccao(f, a, b, estrategia; epsi=1e-6, max_iter=10_000)
+    fa=f(a)
+    fb=f(b)
+    if estrategia == :bisseccao
+        t=1/2
+    elseif estrategia == :esquerda
+        t=1/10;
+    elseif estrategia == :direita
+        t = 9/10
+    elseif estrategia == :aleatorio
+        t= rand()
+    elseif estrategia == :falsa_posicao
+        t= fb/(fb-fa)
     end
-    if fa * fb > 0
-        error("Hipóteses não satisfeitas")
-    end
-    ϵ = atol + rtol * (fa + fb) / 2
-    x = (a + b) / 2
-    fx = f(x)
-    iter = 1
-    while !(abs(fx) < ϵ || iter > max_iter)
-        if fa * fx < 0
-            b, fb = x, fx
+    i=1;
+    c= a*t + b*(1-t);
+    fc=f(c)
+    while abs(fc)>epsi + epsi*(abs(fb)+abs(fa)) && i < max_iter
+        if fc == 0
+            return c, fc, i;
         else
-            a, fa = x, fx
+            if fc*fa < 0
+                b=c;
+            else
+                a=c;
+            end
         end
-        x = (a + b) / 2
-        fx = f(x)
-
-        iter += 1
+    fa=f(a);
+    fb=f(b);
+    if estrategia== :aleatorio
+        t=rand();
+    elseif estrategia == :falsa_posicao
+        t= fb/(fb-fa);
     end
-    return x, fx, iter
+    c= a*t + b*(1-t);
+    fc=f(c)
+    i=i+1;
+    end
+return c, fc, i;
 end

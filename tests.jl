@@ -4,12 +4,16 @@ gr(size=(600,400))
 include("bisseccao.jl")
 
 function tests()
-    funcoes = [ (x -> 2x - 3, 0, 5),
-                (x -> x^2 - 2, 1, 2),
+    funcoes = [ (funcao1, 0, 1),
+                (x -> funcao2, 0, pi^(1/10)),
                 (x -> x * exp(x) - 1, 0, 1) ]
     for i = 1:length(funcoes)
         (f, a, b) = funcoes[i]
-        # Seu código aqui
+        x, fx, k = bisseccao(f,a,b,:falsa_posicao)
+        println("Exemplo $i")
+        println("x=$x")
+        println("fx=$fx")
+        println("k=$k")
     end
 end
 
